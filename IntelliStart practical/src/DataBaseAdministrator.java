@@ -6,7 +6,6 @@ public class DataBaseAdministrator {                            // Клас дл
 
     public void addUser(ArrayList<User> users) {            //Додавання користувача
         Scanner scan = new Scanner(System.in);
-        User user;
         String firstName = "";
         String lastName = "";
         int money = (int) Double.NEGATIVE_INFINITY;
@@ -30,7 +29,6 @@ public class DataBaseAdministrator {                            // Клас дл
 
     public void addProduct(ArrayList<Product> products) {               //Додавання продукту
         Scanner scan = new Scanner(System.in);
-        Product product;
         String name = "";
         int price = (int) Double.NEGATIVE_INFINITY;
         while (name.equals("")) {

@@ -6,14 +6,11 @@ import java.util.Scanner;
 public class Dispatcher {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        ArrayList<User> users = new ArrayList<>();
-        ArrayList<Product> products = new ArrayList<>();
-        Map<User, ArrayList<Product>> mapUsers = new HashMap<>();
-        Map<Product, ArrayList<User>> mapProducts = new HashMap<>();
+        DataBase dataBase = new DataBase(new ArrayList<>(), new ArrayList<>());
         Displayer displayer = new Displayer();
         DataBaseAdministrator admin = new DataBaseAdministrator();
 
-        int id = 0;
+        int id;
         while (true){                                                                                       //Меню для виконання операцій
             System.out.println("""
                     
@@ -34,30 +31,30 @@ public class Dispatcher {
                 continue;
             }
             switch (id) {
-                case 1 -> displayer.displayUsers(users);
-                case 2 -> displayer.displayProducts(products);
+                case 1 -> displayer.displayUsers(dataBase.users);
+                case 2 -> displayer.displayProducts(dataBase.products);
                 case 3 -> {
                     System.out.println("Type user id and product id");
                     try {
-                        User.buy(scan.nextInt(), scan.nextInt(), users, products, mapUsers, mapProducts);
+                        User.buy(scan.nextInt(), scan.nextInt(), dataBase.users, dataBase.products);
                     } catch (NotEnoughMoneyException e) {
                         System.out.println("Not Enough money");
                     }
                 }
-                case 4 -> displayer.displayBoughtProductsByUsers(mapUsers);
-                case 5 -> displayer.displayUsersByBoughtProducts(mapProducts);
+                case 4 -> displayer.displayBoughtProductsByUsers(DataBase.mapUsers);
+                case 5 -> displayer.displayUsersByBoughtProducts(DataBase.mapProducts);
                 case 6 -> System.exit(0);
-                case 7 -> admin.addUser(users);
-                case 8 -> admin.addProduct(products);
+                case 7 -> admin.addUser(dataBase.users);
+                case 8 -> admin.addProduct(dataBase.products);
                 case 9 -> {
                     System.out.println("Set user id to be deleted");
                     int uId = scan.nextInt();
-                    admin.deleteUser(uId, users);
+                    admin.deleteUser(uId, dataBase.users);
                 }
                 case 10 -> {
                     System.out.println("Set product id to be deleted");
                     int pId = scan.nextInt();
-                    admin.deleteProduct(pId, products, mapUsers);
+                    admin.deleteProduct(pId, dataBase.products, DataBase.mapUsers);
                 }
             }
         }

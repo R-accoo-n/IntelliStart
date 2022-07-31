@@ -27,7 +27,7 @@ public class User {
         totalId++;
     }
 
-    public static void buy(int userId, int productId , ArrayList<User> users, ArrayList<Product> products, Map<User, ArrayList<Product>> mapUsers, Map<Product, ArrayList<User>> mapProducts) throws NotEnoughMoneyException {
+    public static void buy(int userId, int productId , ArrayList<User> users, ArrayList<Product> products) throws NotEnoughMoneyException {
         User tempUser = null;                                                               //Метод для купівлі
         Product tempProduct = null;
         for(Product temp : products){
@@ -49,24 +49,9 @@ public class User {
                     System.out.println("Successfully bought the product");
                     tempUser.money -= tempProduct.getPrice();
 
-                    ArrayList<Product> alp;                                                                 //Об'єкти для зміни куплених продуктів без втрати даних про минулі покупки
-                    ArrayList<User> alu;
+                    DataBase.addDataByUser(tempUser, tempProduct);                                              //Додавання даних за користувачем
 
-                    if(!mapUsers.containsKey(tempUser)) {
-                        alp = new ArrayList<>();
-                    }else{
-                        alp = mapUsers.get(tempUser);
-                    }
-                    alp.add(tempProduct);
-                    mapUsers.put(tempUser, alp);
-
-                    if(!mapProducts.containsKey(tempProduct)){
-                        alu = new ArrayList<>();
-                    }else{
-                        alu = mapProducts.get(tempProduct);
-                    }
-                    alu.add(tempUser);
-                    mapProducts.put(tempProduct, alu);
+                    DataBase.addDataByProduct(tempProduct, tempUser);                                           //Додавання даних за продуктом
                 }
                 break;
             }
